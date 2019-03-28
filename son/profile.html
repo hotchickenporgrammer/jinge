@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的资料</title>
+    <link rel="stylesheet" href="../css/profile.css">
+</head>
+
+<body>
+    <div class="container">
+        <form action="" class="form">
+            <div class="list_item">
+                <div class="left">
+                        <img src="../img/add_group_icon.png" alt="">
+
+                    <canvas id="cvs" width="200" height="200">
+                        </canvas>
+                </div>
+                <div class="right">
+                    <div class="btn">
+                        修改头像
+                        <input type="file" class="upload_pic" id="upload">
+                    </div>
+                </div>
+            </div>
+            <div class="list_item">
+                <div class="left">
+                    <span class="type">姓名</span>
+                </div>
+                <div class="right">
+                    <input type="text" placeholder="请输入姓名">
+                </div>
+            </div>
+            <div class="list_item">
+                <div class="left">
+                    <span class="type">姓别</span>
+                </div>
+                <div class="right">
+                    <div class="radio_group">
+                        <input type="radio" name="sex" id="radio_1" value="man">
+                        <label for="radio_1">男</label>
+                    </div>
+                    <div class="radio_group">
+                        <input type="radio" name="sex" id="radio_2" value="woamn">
+                        <label for="radio_2">女</label>
+                    </div>
+
+                </div>
+            </div>
+            <div class="list_item">
+                <div class="left">
+                    <span class="type">所属单位</span>
+                </div>
+                <div class="right">
+                    <input type="text" placeholder="请输入您的所属单位">
+                </div>
+            </div>
+            <div class="list_item">
+                <div class="left">
+                    <span class="type">职称</span>
+                </div>
+                <div class="right" id="local">
+                    <div class="sel_local">请选择职称</div>
+                </div>
+            </div>
+            <div class="list_item">
+                <div class="left">
+                    <span class="type">家庭住址</span>
+                </div>
+                <div class="right">
+                    <div id="sel_city">请选择地址</div>
+                </div>
+            </div>
+            <div class="list_item">
+                <div class="left">
+                    <span class="type">详细地址</span>
+                </div>
+                <div class="right">
+                    <input type="text" placeholder="请输入详细地址" >
+                </div>
+            </div>
+            <div class="mydesc">
+                <div class="desc_title">
+                    <span class="title_text">医生简介</span>
+                    <span class="modify">
+                        <img src="../img/bianji.png" alt="">
+                        <div class="mod_text">修改</div>
+                    </span>
+                </div>
+                <textarea readonly=true name="" id="content_text" cols="30" rows="10" class="content_text" rows="readonly" placeholder="请输入您的简介"></textarea>
+            </div>
+        </form>
+        <div class="footer_btn">
+            <button class="btn">保存修改</button>
+        </div>
+    </div>
+    <script src="../js/picker.min.js"></script>
+    <script src="../js/city.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script>
+
+    var local = document.getElementById('local');
+    var data_local = [
+	{
+		text: '小美',
+		value: 1
+	}, {
+		text: '猪猪',
+		value: 2
+	}
+];
+    var picker_local = new Picker({
+        data:[data_local],
+        selectedIndex: [0],
+	    title: '职称'
+    })
+
+    picker_local.on('picker.select', function (selectedVal, selectedIndex) {
+	$('.sel_local').text(data_local[selectedIndex[0]].text)
+})
+
+    local.addEventListener('click', function () {
+        picker_local.show();    
+});
+
+
+    //-=------------------------------------------------------------------------
+
+    // document.body.style.overflowX='hidden';
+    var input1 = document.getElementById("upload");
+    
+
+    $('.modify').click(function (e) { 
+        $("#content_text").prop("readonly", false).focus();
+        
+    });
+
+if (typeof FileReader === 'undefined') {
+    //result.innerHTML = "抱歉，你的浏览器不支持 FileReader"; 
+    input1.setAttribute('disabled', 'disabled');
+} else {
+    input1.addEventListener('change', readFile, false);
+    /*input1.addEventListener('change',function (e){
+        console.log(this.files);//上传的文件列表
+    },false); */
+}
+
+function readFile() {
+    var file = this.files[0]; //获取上传文件列表中第一个文件
+    if (!/image\/\w+/.test(file.type)) {
+        //图片文件的type值为image/png或image/jpg
+        alert("文件必须为图片！");
+        return false;
+    }
+    // console.log(file);
+    var reader = new FileReader(); //实例一个文件对象
+    reader.readAsDataURL(file); //把上传的文件转换成url
+    //当文件读取成功便可以调取上传的接口
+    reader.onload = function (e) {
+        // console.log(this.result);//文件路径
+        // console.log(e.target.result);//文件路径
+        /*var data = e.target.result.split(',');
+        var tp = (file.type == 'image/png')? 'png': 'jpg';
+        var imgUrl = data[1];//图片的url，去掉(data:image/png;base64,)
+        //需要上传到服务器的在这里可以进行ajax请求
+        // console.log(imgUrl);
+        // 创建一个 Image 对象 
+        var image = new Image();
+        // 创建一个 Image 对象 
+        // image.src = imgUrl;
+        image.src = e.target.result;
+        image.onload = function(){
+            document.body.appendChild(image);
+        }*/
+
+        var image = new Image();
+        // 设置src属性 
+        image.src = e.target.result;
+        var max = 200;
+        // 绑定load事件处理器，加载完成后执行，避免同步问题
+        image.onload = function () {
+            // 获取 canvas DOM 对象 
+            var canvas = document.getElementById("cvs");
+            // 如果高度超标 宽度等比例缩放 *= 
+            /*if(image.height > max) {
+                image.width *= max / image.height; 
+                image.height = max;
+            } */
+            // 获取 canvas的 2d 环境对象, 
+            var ctx = canvas.getContext("2d");
+            // canvas清屏 
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // 重置canvas宽高
+            /*canvas.width = image.width;
+            canvas.height = image.height;
+            if (canvas.width>max) {canvas.width = max;}*/
+            // 将图像绘制到canvas上
+            // ctx.drawImage(image, 0, 0, image.width, image.height);
+            $('.left img').hide();
+            ctx.drawImage(image, 0, 0, 200, 200);
+            // 注意，此时image没有加入到dom之中
+        };
+    }
+};
+
+
+    var nameEl = document.getElementById('sel_city');
+    
+    var first = []; /* 省，直辖市 */
+    var second = []; /* 市 */
+    var third = []; /* 镇 */
+    
+    var selectedIndex = [0, 0, 0]; /* 默认选中的地区 */
+    
+    var checked = [0, 0, 0]; /* 已选选项 */
+    
+    function creatList(obj, list){
+      obj.forEach(function(item, index, arr){
+      var temp = new Object();
+      temp.text = item.name;
+      temp.value = index;
+      list.push(temp);
+      })
+    }
+    
+    creatList(city, first);
+    
+    if (city[selectedIndex[0]].hasOwnProperty('sub')) {
+      creatList(city[selectedIndex[0]].sub, second);
+    } else {
+      second = [{text: '', value: 0}];
+    }
+    
+    if (city[selectedIndex[0]].sub[selectedIndex[1]].hasOwnProperty('sub')) {
+      creatList(city[selectedIndex[0]].sub[selectedIndex[1]].sub, third);
+    } else {
+      third = [{text: '', value: 0}];
+    }
+    
+    var picker = new Picker({
+        data: [first, second, third],
+      selectedIndex: selectedIndex,
+        title: '地址选择'
+    });
+    
+    picker.on('picker.select', function (selectedVal, selectedIndex) {
+      var text1 = first[selectedIndex[0]].text;
+      var text2 = second[selectedIndex[1]].text;
+      var text3 = third[selectedIndex[2]] ? third[selectedIndex[2]].text : '';
+    
+        nameEl.innerText = text1 + ' ' + text2 + ' ' + text3;
+    });
+    
+    picker.on('picker.change', function (index, selectedIndex) {
+      if (index === 0){
+        firstChange();
+      } else if (index === 1) {
+        secondChange();
+      }
+    
+      function firstChange() {
+        second = [];
+        third = [];
+        checked[0] = selectedIndex;
+        var firstCity = city[selectedIndex];
+        if (firstCity.hasOwnProperty('sub')) {
+          creatList(firstCity.sub, second);
+    
+          var secondCity = city[selectedIndex].sub[0]
+          if (secondCity.hasOwnProperty('sub')) {
+            creatList(secondCity.sub, third);
+          } else {
+            third = [{text: '', value: 0}];
+            checked[2] = 0;
+          }
+        } else {
+          second = [{text: '', value: 0}];
+          third = [{text: '', value: 0}];
+          checked[1] = 0;
+          checked[2] = 0;
+        }
+    
+        picker.refillColumn(1, second);
+        picker.refillColumn(2, third);
+        picker.scrollColumn(1, 0)
+        picker.scrollColumn(2, 0)
+      }
+    
+      function secondChange() {
+        third = [];
+        checked[1] = selectedIndex;
+        var first_index = checked[0];
+        if (city[first_index].sub[selectedIndex].hasOwnProperty('sub')) {
+          var secondCity = city[first_index].sub[selectedIndex];
+          creatList(secondCity.sub, third);
+          picker.refillColumn(2, third);
+          picker.scrollColumn(2, 0)
+        } else {
+          third = [{text: '', value: 0}];
+          checked[2] = 0;
+          picker.refillColumn(2, third);
+          picker.scrollColumn(2, 0)
+        }
+      }
+    
+    });
+    
+    picker.on('picker.valuechange', function (selectedVal, selectedIndex) {
+      console.log(selectedVal);
+      console.log(selectedIndex);
+    });
+    
+    nameEl.addEventListener('click', function () {
+        console.log('1 ');
+        
+        picker.show();
+    });
+    </script>
+</body>
+
+</html>

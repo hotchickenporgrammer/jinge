@@ -1,0 +1,113 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+html {
+	font-size: 20px;
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+	font-family: sans-serif;
+}
+@media only screen and (min-width: 320px){
+    html {
+        font-size: 18px !important;
+    }
+}
+@media only screen and (min-width: 360px){
+    html {
+        font-size: 20px !important;
+    }
+}
+@media only screen and (min-width: 400px) {
+	html {
+		font-size: 21.33333333px !important;
+	}
+}
+
+@media only screen and (min-width: 414px) {
+	html {
+		font-size: 22.08px !important;
+	}
+}
+
+@media only screen and (min-width: 480px) {
+	html {
+		font-size: 25.6px !important;
+	}
+}
+a {
+    text-decoration: none;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+.clearfix::after,
+.clearfix::before {
+    content: '';
+    display: block;
+    clear: both;
+}
+.container{
+    height: 100vh;
+    width: 100vw;
+    background: -webkit-linear-gradient(to top,#060C1C,#040710);
+    background: -moz-linear-gradient(to top,#060C1C,#040710);
+    background: linear-gradient(to top,#060C1C,#040710);
+    color: #fff;
+
+}
+.up{
+    margin: 0 auto;
+    width: 12rem;
+    height: 12rem;
+    padding-top: 4.4rem;
+}
+.up img{
+    height: 100%;
+    width: 100%;
+    
+}
+.bottom{
+    box-sizing: border-box;
+    padding: 0 1.1rem;
+}
+.login{
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    padding:1.4rem 0;
+
+}
+.login label{
+    padding-left: 0.45rem;
+    font-size: 0.75rem;
+}
+.login input{
+    padding-left: 1rem;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: #fff;
+    letter-spacing: 0.15rem; 
+    font-size: 1rem;
+}
+.btn{
+    padding-top: 1.75rem;
+    width: 100%;
+
+
+}
+.btn .sumbit{
+    height: 2.4rem;
+    background:rgba(255,255,255,1);
+    border-radius:0.4rem;
+    width: 100%;
+    font-size: 0.75rem;
+    line-height: 2.4rem;
+    text-align: center;
+    color: #333;
+}
